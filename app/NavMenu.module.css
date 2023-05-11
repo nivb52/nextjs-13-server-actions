@@ -1,0 +1,26 @@
+.nav {
+    display: flex;
+    background-color: darkviolet;
+    color: #fff;
+    height: 70px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    margin-inline-start: 3rem;
+    margin-inline-end: 3rem;    
+}
+
+.links {
+    list-style: none;
+    display: flex;
+    margin: 1rem;
+}
+
+.links li {
+    display: flex;
+    align-items: center;
+    padding: 1.25rem;
+    height: 70px;
+}
