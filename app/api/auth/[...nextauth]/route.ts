@@ -2,6 +2,8 @@ import NextAuth from 'next-auth';
 import type { NextAuthOptions } from 'next-auth';
 import GitHub from 'next-auth/providers/github'
 import Facebook from 'next-auth/providers/facebook'
+import prisma from '@/lib/prisma';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
 
 const mustDefinedEnv = ['GITHUB_CLIENT_ID', 'GITHUB_CLIENT_SECRET'];
 let err;
@@ -33,6 +35,7 @@ if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
 
 export const authOptions: NextAuthOptions = {
     providers: providers,
+    adapter: PrismaAdapter(prisma),
     callbacks: {
         async signIn({ user, account, profile, email, credentials }) {
             return true
