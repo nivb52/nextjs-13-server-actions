@@ -23,4 +23,9 @@
     align-items: center;
     padding: 1.25rem;
     height: 70px;
+    
+}
+
+.links li button[data-css="auth"] {
+    text-transform: capitalize;
 }
