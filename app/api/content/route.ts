@@ -1,3 +1,4 @@
+import { getServerSession } from 'next-auth';
 import posts from '../../../tests/mocks/MOCK_DATA.json';
 import { NextResponse } from 'next/server';
 
@@ -21,6 +22,7 @@ const post = [
             'Lorem, lorem, orem dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.',
     },
 ];
-export function GET() {
+export async function GET() {
+    const session = await getServerSession();
     return NextResponse.json(post);
 }
