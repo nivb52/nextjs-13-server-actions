@@ -1,6 +1,7 @@
 import './globals.css'
 import { Roboto } from 'next/font/google'
 import NavMenu from "@/app/NavMenu";
+import AuthProvider from '@/app/AuthProvider';
 
 const inter = Roboto({ weight: ['400', '500', '700', '900'], subsets: ['latin'] })
 
@@ -16,7 +17,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}><NavMenu />{children}</body>
+      <body className={inter.className}>
+        <AuthProvider>
+          <NavMenu />
+          {children}
+        </AuthProvider>
+      </body>
     </html>
   )
 }
