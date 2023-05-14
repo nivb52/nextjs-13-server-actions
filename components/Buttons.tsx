@@ -10,6 +10,10 @@ type Props = {
 }
 export function SignInButton({ text = 'Log In' }: Props) {
   const { data: session, status } = useSession();
+  const doSignIn = () => {
+    console.log('signing in ...');
+    signIn();
+  };
 
   if (status === 'loading') {
     return <>...</>;
@@ -28,9 +32,13 @@ export function SignInButton({ text = 'Log In' }: Props) {
     );
   }
 
-  return <button role='button' data-css="auth" onClick={() => signIn}>{text}</button>;
+  return <button role='button' data-css="auth" onClick={doSignIn}>{text}</button>;
 }
 
 export function SignOutButton({ text = 'Log Out' }: Props) {
-  return <button role='button' data-css="auth" onClick={() => signOut}>{text}</button>;
+  const doSignOut = () => {
+    console.log('signing out ...');
+    signOut()
+  }
+  return <button role='button' data-css="auth" onClick={doSignOut}>{text}</button>;
 }

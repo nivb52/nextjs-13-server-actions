@@ -2,6 +2,7 @@ import './globals.css'
 import { Roboto } from 'next/font/google'
 import NavMenu from "@/app/NavMenu";
 import AuthProvider from '@/app/AuthProvider';
+import { Suspense } from 'react';
 
 const primFont = Roboto({ weight: ['400', '500', '700', '900'], subsets: ['latin'] })
 
@@ -19,7 +20,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={primFont.className}>
         <AuthProvider>
-          <NavMenu />
+          <Suspense fallback={'...'}>
+            {/* @ts-expect-error Server Component */}
+            <NavMenu />
+          </Suspense>
           {children}
         </AuthProvider>
       </body>
