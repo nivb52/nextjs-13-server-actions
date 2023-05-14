@@ -1,6 +1,5 @@
 import { getServerSession } from 'next-auth'
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 
 type Props = {
     session: ReturnType<(<getServerSession>() => getServerSession)>
