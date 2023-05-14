@@ -35,22 +35,23 @@ if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
 
 export const authOptions: NextAuthOptions = {
     providers: providers,
+    secret: process.env.NEXTAUTH_SECRET,
     adapter: PrismaAdapter(prisma),
-    callbacks: {
-        async signIn({ user, account, profile, email, credentials }) {
-            return true
-        },
-        async redirect({ url, baseUrl }) {
-            return baseUrl
-        },
-        async session({ session, token, user }) {
-            return session
-        },
-        async jwt({ token, user, account, profile, isNewUser }) {
-            return token
-        }
-    }
+    // callbacks: {
+    //     async signIn({ user, account, profile, email, credentials }) {
+    //         return true
+    //     },
+    //     async redirect({ url, baseUrl }) {
+    //         return baseUrl
+    //     },
+    //     async session({ session, token, user }) {
+    //         return session
+    //     },
+    //     async jwt({ token, user, account, profile, isNewUser }) {
+    //         return token
+    //     }
+    // }
 }
 
 const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST, handler as nextAuthHandler };
