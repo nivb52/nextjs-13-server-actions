@@ -3,7 +3,7 @@ import { Roboto } from 'next/font/google'
 import NavMenu from "@/app/NavMenu";
 import AuthProvider from '@/app/AuthProvider';
 
-const inter = Roboto({ weight: ['400', '500', '700', '900'], subsets: ['latin'] })
+const primFont = Roboto({ weight: ['400', '500', '700', '900'], subsets: ['latin'] })
 
 export const metadata = {
   title: 'Create Next App',
@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={primFont.className}>
         <AuthProvider>
           <NavMenu />
           {children}
