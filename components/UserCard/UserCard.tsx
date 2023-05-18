@@ -13,18 +13,20 @@ interface Props {
 
 export default function UserCard({ id, name, age, image }: Props) {
     return (
-        <div className={styles.card}>
-            <img
-                src={image ?? '/no-profile-picture-15257.svg'}
-                alt={`${name}'s profile`}
-                className={styles.cardImage}
-            />
-            <div className={styles.cardContent}>
-                <h3 className={styles.title}>
-                    <Link href={`/users/${id}`}>{name}</Link>
-                </h3>
-                <p>Age: {age}</p>
+        <Link href={`/users/${id}`}>
+            <div className={styles.card}>
+                <img
+                    src={image ?? '/no-profile-picture-15257.svg'}
+                    alt={`${name}'s profile`}
+                    className={styles.cardImage}
+                />
+                <div className={styles.cardContent}>
+                    <h3 className={styles.title}>
+                        {name}
+                    </h3>
+                    <p>Age: {age}</p>
+                </div>
             </div>
-        </div>
+        </Link >
     );
 }
