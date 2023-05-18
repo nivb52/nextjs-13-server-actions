@@ -3,12 +3,13 @@ import Image from 'next/image';
 import styles from './NavMenu.module.css';
 import { SignInButton, SignOutButton } from '@/components/Buttons';
 import { getServerSession } from 'next-auth'
-import { Suspense } from 'react';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+
 import GuardedLink from '@/components/Guard'
 
 
 export default async function NavMenu() {
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
 
     return (
         <nav className={styles.nav}>
@@ -22,11 +23,14 @@ export default async function NavMenu() {
                     <Link href={'/about'}> About </Link>
                 </li>
                 <li>
-                    <GuardedLink session={session} href={'/blog'}> Blog </GuardedLink>
+                    <Link href={'/blog'}> Blog </Link>
 
                 </li>
                 <li>
                     <Link href={'/users'}> Users </Link>
+                </li>
+                <li>
+                    <GuardedLink session={session} href={'/dashboard'}> Dashboard </GuardedLink>
                 </li>
                 <li>
                     <SignInButton text={'sign in'} />

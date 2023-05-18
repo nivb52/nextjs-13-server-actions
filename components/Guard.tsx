@@ -1,14 +1,16 @@
-import { getServerSession } from 'next-auth'
 import Link from 'next/link';
+import { Session } from 'next-auth'
 
 type Props = {
-    session: ReturnType<(<getServerSession>() => getServerSession)>
+    session: Session | null
     href: string
     text?: string
     children: React.ReactNode
 }
 
 export default function GuardedLink({ session, href, text, children }: Props) {
+    console.info(session, 'session');
+
     if (session) {
         return (
             <Link href={href}>
