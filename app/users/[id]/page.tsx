@@ -23,9 +23,7 @@ export default async function Home(req: Props) {
     const user = await prisma.user.findUnique({ where: { id: req.params.id } });
 
     if (!user) {
-        return (
-            <div> <h1>404 - Oppps </h1> <h3>User Not found</h3></div>
-        )
+        redirect('/404');
     }
 
     return (

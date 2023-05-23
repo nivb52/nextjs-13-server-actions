@@ -1,4 +1,3 @@
-
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
@@ -9,15 +8,17 @@ import ProfileForm from './ProfileForm';
 export default async function Dashboard() {
     const session = await getServerSession(authOptions);
     if (!session || !session.user?.email) {
-        console.log("this souldn't be possible");
+        console.log("this souldn't be possible because we add this route as Guarded");
         redirect('/api/auth/signin')
     }
 
-    const user = await prisma.user.findUnique({ where: { email: session.user?.email } });
+    const user = await prisma.user.findUnique({
+        where: {
+            email: session.user?.email
+        }
+    });
     if (!user) {
-        return (
-            <div> <h1>404 - Oppps </h1> <h3>User Not found</h3></div>
-        )
+        redirect('/404')
     }
 
     return (
