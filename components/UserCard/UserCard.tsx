@@ -1,6 +1,4 @@
 import styles from './UserCard.module.css';
-
-import type { Prisma } from "@prisma/client";
 import Link from 'next/link';
 
 interface Props {
