@@ -19,6 +19,9 @@ export default function FollowClient({ isFollowing, targetUserId }: Props) {
             const res = isFollowing ? await unfollow(targetUserId) : await follow(targetUserId)
             console.log(res);
             startTransition(() => {
+                // - Sends the updated React Server Component payload to the client
+                // - The client merges the payload without losing unaffected
+                //   client-side React state or browser state
                 router.refresh();
             });
 
