@@ -21,8 +21,13 @@ export default function FollowClient({ isFollowing, targetUserId }: Props) {
             startTransition(() => {
                 router.refresh();
             });
+
+            if (!res.ok) {
+                alert('FAILED');
+            }
         } catch (err) {
-            console.error('Failed to toggle follow', err);
+            console.error('Failed to toggle follow');
+            alert('FAILED');
         } finally {
             setIsFetching(false);
         }
