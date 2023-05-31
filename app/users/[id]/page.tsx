@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth/next'
 import { redirect } from 'next/navigation';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import prisma from '@/lib/prisma';
-
+import FollowButton from '@/components/FollowButton/FollowButton';
 interface Props {
     params: { id: string }
     searchParams: {}
@@ -10,7 +10,7 @@ interface Props {
 
 export async function generateMetadata(req: Props) {
     const user = await prisma.user.findUnique({ where: { id: req.params.id } });
-    return { title: `User profule of ${user?.name}` }
+    return { title: `User profile of ${user?.name}` }
 }
 
 export default async function Home(req: Props) {
@@ -20,9 +20,15 @@ export default async function Home(req: Props) {
         alert('this page require authentication')
         redirect('/api/auth/signin');
     }
-    const user = await prisma.user.findUnique({ where: { id: req.params.id } });
+    const user = await prisma.user.findUnique({
+        where: { id: req.params.id },
+        include: {
+            followedBy: true
+        }
+    });
 
     if (!user) {
+        console.log('404 - user not found');
         redirect('/404');
     }
 
@@ -40,6 +46,8 @@ export default async function Home(req: Props) {
                 <h3 className='text-2xl underline pt-4 text-center'>Bio</h3>
                 <p>{user.bio}</p>
 
+                {/* @ts-expect-error- Server Component */}
+                <FollowButton targetUserId={user.id} followedBy={user.followedBy || []} />
             </div>
         </main>
     )
