@@ -15,13 +15,17 @@ export default function FollowClient({ isFollowing, targetUserId }: Props) {
 
     const toggleFollow = async () => {
         setIsFetching(true)
-        const res = isFollowing ? await unfollow(targetUserId) : await follow(targetUserId)
-        console.log(res);
-
-        setIsFetching(false);
-        startTransition(() => {
-            router.refresh();
-        });
+        try {
+            const res = isFollowing ? await unfollow(targetUserId) : await follow(targetUserId)
+            console.log(res);
+            startTransition(() => {
+                router.refresh();
+            });
+        } catch (err) {
+            console.error('Failed to toggle follow', err);
+        } finally {
+            setIsFetching(false);
+        }
     }
 
     const follow = async (targetUserId: string) => {
