@@ -24,7 +24,7 @@ export async function POST(req: Request) {
                 followingId: targetUserId
             }
         });
-        return NextResponse.json(record).ok;
+        return NextResponse.json(record);
     } catch (err) {
         console.error(err);
         return NextResponse.error();
@@ -56,7 +56,7 @@ export async function DELETE(req: NextRequest) {
                 }
             }
         });
-        return NextResponse.json(record).ok;
+        return NextResponse.json(record);
 
     } catch (err) {
         console.error(err);
