@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 
 export default async function About() {
     return (
-        <section>
-            <h1 className="">About</h1>
-            <p>We are a social media company</p>
+        <section className="mt-4">
+            <h1 className="text-3xl text-center">About</h1>
+            <p className="text-center">We are a social media company</p>
         </section>
     )
 
