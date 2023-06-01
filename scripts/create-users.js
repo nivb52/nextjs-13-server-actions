@@ -1,9 +1,11 @@
 const { spawnSync } = require('child_process');
+const numModels = parseInt(process.argv[2]);
 
-const numModels = process.argv[2] || 1;
-if (!numModels) {
-    throw new Error('misssing numModels, you can just use "npx prisma db seed"')
+if (numModels < 1) {
+    console.log('misssing numModels, you can just use "npx prisma db seed"')
+    return
 }
+
 // Execute the main script using cross-env to set the environment variables
 const result = spawnSync(
     'cross-env',
