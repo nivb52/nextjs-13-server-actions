@@ -26,7 +26,7 @@ export default async function FollowButton(props: Props) {
     }).then(rec => rec?.id);
 
     if (!currentUserId) {
-        alert('this page require authentication')
+        console.log('this page require authentication')
         redirect('/api/auth/signin');
     }
 
