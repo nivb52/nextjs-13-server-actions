@@ -18,7 +18,7 @@ export default async function Blog() {
             content: false,
             likes: {
                 select: {
-                    isLike: true
+                    userId: true
                 }
             }
         },
@@ -58,6 +58,10 @@ export default async function Blog() {
                                     alt={`${post.author.name}'s profile`}
                                 />
                             </p>
+
+                            <div>
+                                Likes: {post.likes.length}
+                            </div>
 
                         </div>
                     )
