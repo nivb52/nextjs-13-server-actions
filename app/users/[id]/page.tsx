@@ -17,7 +17,7 @@ export default async function Home(req: Props) {
     const session = await getServerSession(authOptions)
 
     if (!session) {
-        alert('this page require authentication')
+        console.log('this page require authentication')
         redirect('/api/auth/signin');
     }
     const user = await prisma.user.findUnique({
