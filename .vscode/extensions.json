@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "stivo.tailwind-fold",
+        "zarifprogrammer.tailwind-snippets",
+        "bradlc.vscode-tailwindcss",
+        "xyc.vscode-mdx-preview",
+        "unifiedjs.vscode-mdx",
+        "yoavbls.pretty-ts-errors",
+        "prisma.prisma",
+        "prisma.prisma-insider"
+    ]
+}

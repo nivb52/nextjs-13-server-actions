@@ -22,7 +22,10 @@
 
 #IDE
 .idea
-.vscode
+# .vscode
+.vscode/launch.json
+.vscode/settings.json
+.vscode/tasks.json
 
 # debug
 npm-debug.log*
