@@ -1,49 +1,22 @@
-import type { Post } from '../../api/content/route';
-import getConfig from '@/app/config/development';
+// import type { Post } from '../../api/content/route';
+import prisma from '@/lib/prisma';
+import { redirect } from 'next/navigation';
+
 interface Props {
     params: { slug: string }
 }
-const config = getConfig();
-
 
 export const revalidate = 400; //seconds: 5*60
+/** another option: SSG -> see readme */
 
-/** another option: SSG */
-/*
-export async function generateStaticParams() {
-    try {
-        const posts: Post[] = await fetch(config.api + '/content')
-            .then(res => {
-                return res.json()
-            });
-        return posts.map(post => { slug: post.slug });
-    } catch (err) {
-        console.error('error: retriving data for Blog, ', err);
-    }
-}
- */
-export default async function BlogPostPage({ params }: Props) {
-    console.log('config', config);
-    let post, posts: Post[] | undefined
-    try {
-        posts = await fetch(config.api + '/content')
-            .then(res => {
-                return res.json()
-            });
-    } catch (err) {
-        console.error('error: retriving data for Blog post slug: ', params.slug, ' err:', err);
-    }
+export default async function BlogPostPage(req: Props) {
+    const post = await prisma.post.findUnique({
+        where: { slug: req.params.slug }
+    });
 
-    if (posts) {
-        post = posts.find(p => p.slug === params.slug);
-    }
-
-    if (!post) {
-        return (
-            <div>
-                No Data
-            </div>
-        )
+    if (!post || !post.title || !post.content) {
+        console.log('404 - post not found');
+        redirect('/404');
     }
 
     return (
@@ -52,5 +25,4 @@ export default async function BlogPostPage({ params }: Props) {
             <p className='first-letter:text-3xl'>{post.content}</p>
         </div>
     )
-
 }
