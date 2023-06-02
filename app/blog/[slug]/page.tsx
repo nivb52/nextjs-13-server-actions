@@ -10,10 +10,28 @@ export const revalidate = 400; //seconds: 5*60
 /** another option: SSG -> see readme */
 
 export default async function BlogPostPage(req: Props) {
-    const post = await prisma.post.findUnique({
-        where: { slug: req.params.slug }
-    });
+    const getPost = async (times = 5) => {
+        if (times < 1) {
+            throw new Error(`Bad argument: 'times' must be greater than 0, but ${times} was received.`);
+        }
 
+        let attemptCount = 0
+        while (true) {
+            try {
+                return await prisma.post.findUnique({
+                    where: { slug: req.params.slug }
+                });
+            } catch (err) {
+                attemptCount++;
+                if (attemptCount >= times) throw err;
+                if (err instanceof Error && err.message.search(`Can't reach database server`) == -1) {
+                    throw err
+                }
+            }
+        }
+    }
+
+    const post = await getPost();
     if (!post || !post.title || !post.content) {
         console.log('404 - post not found');
         redirect('/404');
