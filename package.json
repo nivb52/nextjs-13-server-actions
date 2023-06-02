@@ -12,11 +12,14 @@
     "start": "next start  -p 8080",
     "lint": "next lint",
     "migrate": "npx prisma migrate dev",
-    "seed:user": "node scripts/create-users.js"
+    "migrate:up": "npx prisma db push",
+    "seed:user": "node scripts/create-users.js",
+    "seed:post": "node scripts/create-posts.js",
+    "seed:like": "node scripts/create-likes.js"
   },
   "prisma": {
     "seed:example": "ts-node  --swc --compiler-options {\"module\":\"CommonJS\"} prisma/seed/seed.ts",
-    "seed": "ts-node --swc --compiler-options {\"module\":\"CommonJS\"} prisma/seed/seedUser.ts users=5"
+    "seed": "ts-node --swc --compiler-options {\"module\":\"CommonJS\"} prisma/seed/seedUser.ts"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.6",
