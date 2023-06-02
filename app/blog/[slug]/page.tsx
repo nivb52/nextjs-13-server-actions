@@ -12,14 +12,27 @@ export const revalidate = 400; //seconds: 5*60
 export default async function BlogPostPage(req: Props) {
     const getPost = async (times = 5) => {
         if (times < 1) {
-            throw new Error(`Bad argument: 'times' must be greater than 0, but ${times} was received.`);
+            throw new Error(`getPost, Bad argument: 'times' must be greater than 0, but ${times} was received.`);
         }
 
         let attemptCount = 0
         while (true) {
             try {
                 return await prisma.post.findUnique({
-                    where: { slug: req.params.slug }
+                    where: { slug: req.params.slug },
+                    select: {
+                        author: true,
+                        title: true,
+                        content: true,
+                        createdAt: true,
+                        isPublished: true,
+                        id: true,
+                        likes: {
+                            select: {
+                                userId: true
+                            }
+                        }
+                    }
                 });
             } catch (err) {
                 attemptCount++;
@@ -41,6 +54,7 @@ export default async function BlogPostPage(req: Props) {
         <div className='p-24 '>
             <h2 className='pb-5 text-7xl'>{post.title}</h2>
             <p className='first-letter:text-3xl'>{post.content}</p>
+            <div>Likes: {post.likes.length}</div>
         </div>
     )
 }
