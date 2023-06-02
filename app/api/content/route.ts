@@ -1,4 +1,4 @@
-import posts from '../../../tests/mocks/MOCK_DATA.json';
+// Deprecated
 import { NextResponse } from 'next/server';
 
 export interface Post {
@@ -22,5 +22,9 @@ const post = [
     },
 ];
 export async function GET() {
+
+    // const post = await prisma.post.findUnique({
+    //     where: { id: req.params.id }
+    // });
     return NextResponse.json(post);
 }
