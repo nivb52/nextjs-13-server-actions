@@ -1,0 +1,1 @@
+export const isString = (str: unknown): boolean => str && typeof str === 'string' && str.trim() ? true : false;
