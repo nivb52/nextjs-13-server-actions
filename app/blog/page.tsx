@@ -1,9 +1,10 @@
 import prisma from '@/lib/prisma';
-import Link from 'next/link';
-
+import { retryQuery } from "@/lib/utils/asyncRetry";
+import PostCard from '@/components/PostCard/PostCard'
 
 export default async function Blog() {
-    const posts = await prisma.post.findMany({
+
+    const getPosts = async () => await prisma.post.findMany({
         take: 10, select: {
             slug: true,
             id: true,
@@ -28,7 +29,7 @@ export default async function Blog() {
             }
         }
     });
-
+    const posts: Awaited<ReturnType<typeof getPosts>> = await retryQuery(getPosts, 3);
     if (!posts || !posts.length) {
         return (
             <div>no data</div>
@@ -38,37 +39,24 @@ export default async function Blog() {
     return (
         <main className=''>
             <h1 className='text-4xl text-center pt-4'>
-                Blog
+                Our Blog
             </h1>
 
-            <div className="grid grid-cols-3 gap-5 mt-8">
-                {posts.map((post) => {
-                    return (
 
-                        <div key={post.id} className="mb-6">
-                            <Link href={`/blog/${post.slug}`}>
-                                <h1 className='text-2xl' >{post.title}</h1>
-                            </Link >
-                            <p>By {post.author.name}</p>
-                            <p>
-                                {new Date(post.createdAt).toLocaleString()}
-                                <img
-                                    width={25}
-                                    src={post.author.image ?? '/no-profile-picture-15257.svg'}
-                                    alt={`${post.author.name}'s profile`}
-                                />
-                            </p>
+            <section className="text-gray-600 body-font">
+                <div className="container px-5 py-24 mx-auto">
+                    <div className="flex flex-wrap -mx-4 -my-8">
+                        {posts.map((post) => {
+                            return (
+                                <div className="py-8 px-4 lg:w-1/3">
+                                    <PostCard key={post.id} post={post} />
+                                </div>
+                            )
+                        })}
 
-                            <div>
-                                Likes: {post.likes.length}
-                            </div>
-
-                        </div>
-                    )
-                })}
-            </div>
+                    </div>
+                </div>
+            </section>
         </main>
     )
-
-
 }
