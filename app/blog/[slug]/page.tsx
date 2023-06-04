@@ -2,7 +2,7 @@
 import prisma from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 import { retryQuery } from "@/lib/utils/asyncRetry";
-import { revalidatePath } from "next/cache";
+import PostLikeForm from '@/components/PostLike/PostLikeForm';
 
 interface Props {
     params: { slug: string }
@@ -10,6 +10,7 @@ interface Props {
 
 export const revalidate = 400; //seconds: 5*60
 /** another option: SSG -> see readme */
+
 
 export default async function BlogPostPage(req: Props) {
     const getPost = async () => await prisma.post.findUnique({
@@ -21,6 +22,7 @@ export default async function BlogPostPage(req: Props) {
             createdAt: true,
             isPublished: true,
             id: true,
+            slug: true,
             likes: {
                 select: {
                     userId: true
@@ -36,22 +38,29 @@ export default async function BlogPostPage(req: Props) {
     }
 
 
-    async function upVotePost(formData: FormData) {
 
 
-        revalidatePath(`/blog/${req.params.slug}/`);
-    }
-
+    // const isUpVoteAllowed = post.likes.findIndex( userId => )
     return (
-        <div className='p-24 '>
-            <h2 className='pb-5 text-7xl'>{post.title}</h2>
-            <p className='first-letter:text-3xl'>{post.content}</p>
-            <div className=''>
-                Likes: {post.likes.length}
+        <section className='flex'>
+            <div className='p-24 '>
+                <h2 className='pb-5 text-7xl'>{post.title}</h2>
+                <p className='first-letter:text-3xl'>{post.content}</p>
+                <div className='flex flex-col mt-10'>
+                    <p>Likes: {post.likes.length}</p>
+                    <p className=''>
+                        {/* <form action={doUpVotePost}>
+                            <input name="postId" hidden type="text" defaultValue={post.id} />
+                            <input name="postSlug" hidden type="text" defaultValue={post.slug} />
+                            <button type="submit" className='mr-5'> 👍 </button>
+                            <button className='' disabled hidden> 👎 </button>
+                        </form> */}
 
-                <button className=''> 👍 </button>
+                        <PostLikeForm postId={post.id} slug={post.slug} likesCount={post.likes.length} />
+                    </p>
+                </div>
+
             </div>
-
-        </div>
+        </section>
     )
 }
