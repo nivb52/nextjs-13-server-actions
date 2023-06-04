@@ -6,22 +6,29 @@ const prisma = new PrismaClient();
 async function createUserModels(): Promise<void> {
     const numModels = parseInt(process.env.NUM_MODELS || "1");
 
+
+    for (let i = 0; i < numModels; i++) {
+
+        const data = {
+            name: faker.person.fullName(),
+            bio: faker.lorem.sentence(),
+            age: faker.number.int({ min: 18, max: 60 }),
+            email: faker.internet.email(),
+            emailVerified: new Date(),
+            image: faker.image.avatarGitHub(),
+        };
+
+        await prisma.user.create({ data });
+    }
+
+    console.log(`${numModels} user models created successfully!`);
+
+}
+
+
+async function main() {
     try {
-        for (let i = 0; i < numModels; i++) {
-
-            const data = {
-                name: faker.person.fullName(),
-                bio: faker.lorem.sentence(),
-                age: faker.number.int({ min: 18, max: 60 }),
-                email: faker.internet.email(),
-                emailVerified: new Date(),
-                image: faker.image.avatarGitHub(),
-            };
-
-            await prisma.user.create({ data });
-        }
-
-        console.log(`${numModels} user models created successfully!`);
+        createUserModels();
     } catch (error) {
         console.error("Error creating user models:", error);
     } finally {
@@ -29,4 +36,4 @@ async function createUserModels(): Promise<void> {
     }
 }
 
-createUserModels();
+main();

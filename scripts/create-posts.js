@@ -2,8 +2,13 @@ const { spawnSync } = require('child_process');
 const numUsers = parseInt(process.argv[2]);
 const maxNumPosts = parseInt(process.argv[3]);
 
-if (numUsers < 1) {
-    console.log('misssing numModels, you can just use "npx prisma db seed"')
+if (!numUsers || numUsers < 1) {
+    console.log('misssing or invalid amount of posts (1st arguemnt)')
+    return
+}
+
+if (!maxNumPosts || maxNumPosts < 1) {
+    console.log('misssing or invalid amount of users to had posts (2nd arguemnt)')
     return
 }
 
